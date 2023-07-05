@@ -5,9 +5,9 @@
   <title>redirect</title>
 </head>
 <body>
-<script type="text/javascript">
-  let msg = /*[[${msg}]]*/ '';
-  let url = /*[[${url}]]*/ '/main';
+<script th:inline="javascript">
+  let msg = [[${msg}]];
+  let url = [[${url}]];
   alert(msg);
   location.href=url;
 </script>
