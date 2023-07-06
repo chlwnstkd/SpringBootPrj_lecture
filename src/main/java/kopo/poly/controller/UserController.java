@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,7 +62,7 @@ public class UserController {
 
             pDTO.setPassword(EncryptUtil.encHashSHA256(password));
 
-            pDTO.setEmail(EncryptUtil.encHashSHA256(password));
+            pDTO.setEmail(EncryptUtil.encAES128CBC(email));
             pDTO.setAddr1(addr1);
             pDTO.setAddr2(addr2);
 
@@ -141,5 +143,45 @@ public class UserController {
         log.info(this.getClass().getName() + ".user/login Start!");
         log.info(this.getClass().getName() + ".user/login End!");
         return "/user/login";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/user/getUserIdExists")
+    public UserInfoDTO getUserExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        String user_id = CmmUtil.nvl(request.getParameter("user_id"));
+
+        log.info("user_id : " + user_id);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setUser_id(user_id);
+
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserIdExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/user/getEmailExists")
+    public UserInfoDTO getEmailExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getEmailExists Start!");
+
+        String email = CmmUtil.nvl(request.getParameter("email"));
+
+        log.info("email : " + email);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setEmail(EncryptUtil.encAES128CBC(email));
+
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getEmailExists End!");
+
+        return rDTO;
     }
 }

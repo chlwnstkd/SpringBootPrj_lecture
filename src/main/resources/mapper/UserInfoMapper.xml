@@ -29,12 +29,12 @@
         SELECT USER_ID, USER_NAME, EMAIL
         FROM USER_INFO
         WHERE USER_ID = #{user_id}
-            AND PASSWORD = #{password}
+            AND PASSWORD = #{password};
     </select>
-    <select id="getUserIdExists" resultType="UserInfoDTO">
-        SELECT USER_ID, USER_NAME, PASSWORD, EMAIL,ADDR1,
-               ADDR2, REG_ID,REG_DT,CHG_ID, CHG_DT
-        FROM USER_INFO
-        WHERE USER_ID = #{user_id}
-    </select>
+<!--    <select id="getUserId" resultType="UserInfoDTO">-->
+<!--        SELECT USER_ID, USER_NAME, PASSWORD, EMAIL,ADDR1,-->
+<!--               ADDR2, REG_ID,REG_DT,CHG_ID, CHG_DT-->
+<!--        FROM USER_INFO-->
+<!--        WHERE USER_ID = #{user_id};-->
+<!--    </select>-->
 </mapper>

@@ -19,13 +19,12 @@ import java.util.Optional;
 
 @Slf4j
 //@RequestMapping(value = "/notice")
-//특정 메소드와 매핑하기 위해 사용
+//특정 메소드와 매핑하기 위해 사용, 구형이다
 @RequiredArgsConstructor
 @Controller
 public class NoticeController {
     private final INoticeService noticeService;
-//GetMapping는
-//PostMapping는
+//GET 방식은 데이터 조회, POST 방식에서 새로운 데이터 추가.
     @GetMapping(value = "/notice/noticeList")
     public String noticeList(ModelMap model)
             throws Exception {
